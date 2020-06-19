@@ -106,6 +106,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: "${capture_pod}"
+  namespace: test-infra
 spec:
   containers:
   - name: capturer
@@ -175,6 +176,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: "${capture_pod}"
+  namespace: test-infra
 spec:
   hostNetwork: true
   containers:
