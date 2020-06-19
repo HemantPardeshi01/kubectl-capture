@@ -94,8 +94,8 @@ function start_capture() {
 
   wait_until_finished
 
-  kubectl cp ${capture_pod}:/${capture_pod}.scap.gz ${capture_pod}.scap.gz > /dev/null 2>&1
-  kubectl delete pod ${capture_pod} > /dev/null 2>&1
+  kubectl cp test-infra/${capture_pod}:/${capture_pod}.scap.gz ${capture_pod}.scap.gz > /dev/null 2>&1
+  kubectl delete pod ${capture_pod} -n test-infra > /dev/null 2>&1
   echo "The capture has been downloaded to your hard disk at:"
   echo "${PWD}/${capture_pod}.scap.gz"
 }
@@ -255,7 +255,7 @@ function wait_until_finished() {
   sleep ${capture_duration}
   sleep ${time_spent_building_sysdig_module}
   while [[ ! -e .finished ]]; do
-    kubectl cp ${capture_pod}:/.finished .finished > /dev/null 2>&1
+    kubectl cp test-infra/${capture_pod}:/.finished .finished > /dev/null 2>&1
     sleep 5
   done
   rm .finished
@@ -267,7 +267,7 @@ function delete_capture_pod() {
   if [[ -n "${capture_pod}" ]]; then
     echo ""
     echo "Please wait until capture pod is deleted"
-    kubectl delete pod ${capture_pod} > /dev/null 2>&1
+    kubectl delete pod ${capture_pod} -n test-infra > /dev/null 2>&1
   fi
   exit 0
 }
